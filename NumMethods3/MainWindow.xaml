@@ -1,0 +1,73 @@
+﻿<Window x:Class="NumMethods3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:wfi="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
+        xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        xmlns:wfchart="clr-namespace:System.Windows.Forms.DataVisualization.Charting;assembly=System.Windows.Forms.DataVisualization"
+        SizeToContent="Width"
+        Title="Предиктор-корректорные схемы Адамса" Height="375">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <Label Grid.Row="0" Grid.RowSpan="2" Grid.Column="0">Задача:</Label>
+        
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+            <Label>y' = </Label>
+            <TextBox x:Name="FunctionBox" Width="100"></TextBox>
+            <Label>x ∈ [</Label>
+            <TextBox x:Name="LeftBoundBox" Width="20">0</TextBox>
+            <Label>;</Label>
+            <TextBox x:Name="RightBoundBox" Width="20">10</TextBox>
+            <Label>]</Label>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+            <Label Padding="5,5,0,5">y(</Label>
+            <Label Content="{Binding ElementName=LeftBoundBox, Path=Text, UpdateSourceTrigger=PropertyChanged}" Padding="0,5"/>
+            <Label Padding="0,5,5,5">) = </Label>
+            <TextBox x:Name="InitValBox" Width="40">0</TextBox>
+        </StackPanel>
+
+        <Label Grid.Row="2" Grid.Column="0">Введите искомую функцию:</Label>
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+            <Label>y =</Label>
+            <TextBox x:Name="OriginBox" Width="100"></TextBox>
+        </StackPanel>
+
+        <Label Grid.Row="3" Grid.Column="0">Количество узлов сетки:</Label>
+        <TextBox x:Name="PointsCountBox" Grid.Row="3" Grid.Column="1" Width="100" HorizontalAlignment="Left">400</TextBox>
+
+        <Label Grid.Row="4" Grid.Column="0">Порядок метода:</Label>
+        <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
+            <Slider x:Name="MethodRankSlider" Minimum="1" Maximum="6" TickFrequency="1" Value="1" Width="100"/>
+            <Label Content="{Binding ElementName=MethodRankSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+        
+        <Button x:Name="SolveBtn" Grid.Row="5" Grid.ColumnSpan="2" Width="75" HorizontalAlignment="Center" Click="SolveBtn_Click">Решить</Button>
+
+        <StackPanel x:Name="ChartContainer" Grid.Column="2" Grid.RowSpan="6" Visibility="Collapsed">
+            <WindowsFormsHost Grid.RowSpan="5" Grid.Column="2" HorizontalAlignment="Center" Loaded="WFHost_Loaded">
+                <wfchart:Chart x:Name="ResultChart" Width="600"/>
+            </WindowsFormsHost>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="DrawOriginBtn" Click="DrawOriginBtn_Click">Нарисовать искомую функцию</Button>
+                <Button x:Name="ResetChartBtn" Width="50" Click="ResetChartBtn_Click">Сброс</Button>
+            </StackPanel>
+        </StackPanel>
+        
+
+    </Grid>
+</Window>
